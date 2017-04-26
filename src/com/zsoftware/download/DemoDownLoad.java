@@ -7,7 +7,7 @@ package com.zsoftware.download;
  */
 public class DemoDownLoad {
 	public static void main(String[] args) throws Exception {
-		DownloadUtil du = new DownloadUtil("http://dldir1.qq.com/weixin/Windows/WeChatSetup.exe", 10, "O:/weixin.exe");
+		DownloadUtil du = new DownloadUtil("http://dldir1.qq.com/weixin/Windows/WeChatSetup.exe", 5, "O:/weixin.exe");
 		du.download(new DownLoadListener() {
 
 			@Override

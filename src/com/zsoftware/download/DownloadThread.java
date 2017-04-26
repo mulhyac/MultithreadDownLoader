@@ -1,5 +1,6 @@
 package com.zsoftware.download;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
@@ -35,15 +36,13 @@ public class DownloadThread implements IJob {
 			URL url = new URL(path);
 			httpURLConnection = (HttpURLConnection) url.openConnection();
 			httpURLConnection.setConnectTimeout(10000);
-			httpURLConnection.setRequestMethod("GET");
 			httpURLConnection.setRequestProperty("Range", "bytes=" + startPos + "-" + (partSize + startPos));// 设置该头字段表示下载�?部分数据
 			InputStream inputStream = httpURLConnection.getInputStream();
 			// inputStream.skip(startPos);
 
-			int report_person = ((partSize + startPos) - startPos) / 100; // 报告百分�?
+			int report_person = ((partSize + startPos) - startPos) / 100; // 报告百分比
 			int b;
 			int report_current = 0;
-			int report_current_person = 0;
 
 			while (length < partSize && (b = inputStream.read()) != -1) {
 				contentDownLength.incrementAndGet();
@@ -52,16 +51,20 @@ public class DownloadThread implements IJob {
 				report_current++;
 				if (report_current >= report_person) {
 					report_current = 0;
-					report_current_person++;
 				}
 			}
-			randomAccessFile.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (httpURLConnection != null) {
 				httpURLConnection.disconnect();
+			}
+
+			try {
+				this.randomAccessFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return null;
