@@ -1,5 +1,10 @@
 package com.zsoftware.download;
 
+/**
+ * 测试
+ * @author coolzlay
+ *
+ */
 public class DemoDownLoad {
 	public static void main(String[] args) throws Exception {
 		DownloadUtil du = new DownloadUtil("http://dldir1.qq.com/weixin/Windows/WeChatSetup.exe", 10, "O:/weixin.exe");
